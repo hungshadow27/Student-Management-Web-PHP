@@ -5,6 +5,10 @@ class ClassController
     use Controller;
     public function index($a = '', $b = '', $c = '')
     {
+        if (!isset($_SESSION['USER'])) {
+            redirect('login');
+            exit;
+        }
         $classModel = new ClassModel();
         $classes = $classModel->getAllClasses();
         $data['classes'] = $classes;

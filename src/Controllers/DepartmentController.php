@@ -5,6 +5,10 @@ class DepartmentController
     use Controller;
     public function index($a = '', $b = '', $c = '')
     {
+        if (!isset($_SESSION['USER'])) {
+            redirect('login');
+            exit;
+        }
         $departmentModel = new DepartmentModel();
         $departments = $departmentModel->getAllDepartments();
         $data['departments'] = $departments;

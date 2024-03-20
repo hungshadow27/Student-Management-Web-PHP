@@ -5,6 +5,10 @@ class SubjectController
     use Controller;
     public function index($a = '', $b = '', $c = '')
     {
+        if (!isset($_SESSION['USER'])) {
+            redirect('login');
+            exit;
+        }
         $subjectModel = new SubjectModel();
         $subjects = $subjectModel->getAllSubjects();
         $data['subjects'] = $subjects;
@@ -48,6 +52,58 @@ class SubjectController
 
                     $subjectModel = new SubjectModel();
                     $subjectModel->updateSubjectById($subject_id, $name, $department_id);
+
+                    header('Content-Type: application/json');
+                    echo json_encode(['success' => true, 'message' => 'Data received successfully']);
+                    exit; // Terminate the script after sending the response
+                } else {
+                    echo json_encode(['error' => 'Invalid JSON data']);
+                }
+            } else {
+                echo json_encode(['error' => 'No data received']);
+            }
+        } else {
+            echo json_encode(['error' => 'Only POST requests are allowed']);
+        }
+    }
+    public function updateRegisteredStudents()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $json_data = file_get_contents('php://input');
+            if (!empty($json_data)) {
+                $data = json_decode($json_data, true); // true parameter converts objects to associative arrays
+                if ($data !== null) {
+                    $subject_id = $data['subject_id'];
+                    $registered_students = $data['registered_students'];
+
+                    $subjectModel = new SubjectModel();
+                    $subjectModel->updateRegiteredStudentsById($subject_id, $registered_students);
+
+                    header('Content-Type: application/json');
+                    echo json_encode(['success' => true, 'message' => 'Data received successfully']);
+                    exit; // Terminate the script after sending the response
+                } else {
+                    echo json_encode(['error' => 'Invalid JSON data']);
+                }
+            } else {
+                echo json_encode(['error' => 'No data received']);
+            }
+        } else {
+            echo json_encode(['error' => 'Only POST requests are allowed']);
+        }
+    }
+    public function setStatus()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $json_data = file_get_contents('php://input');
+            if (!empty($json_data)) {
+                $data = json_decode($json_data, true); // true parameter converts objects to associative arrays
+                if ($data !== null) {
+                    $subject_id = $data['subject_id'];
+                    $status = $data['status'];
+
+                    $subjectModel = new SubjectModel();
+                    $subjectModel->updateSubjectStatusById($subject_id, $status);
 
                     header('Content-Type: application/json');
                     echo json_encode(['success' => true, 'message' => 'Data received successfully']);

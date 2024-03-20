@@ -5,6 +5,10 @@ class StudentController
     use Controller;
     public function index($a = '', $b = '', $c = '')
     {
+        if (!isset($_SESSION['USER'])) {
+            redirect('login');
+            exit;
+        }
         $studentModel = new StudentModel();
         $students = $studentModel->getAllStudents();
         $data['students'] = $students;
