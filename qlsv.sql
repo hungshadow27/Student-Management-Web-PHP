@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 20, 2024 at 04:46 PM
+-- Generation Time: Mar 23, 2024 at 10:45 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -59,6 +59,7 @@ CREATE TABLE `department` (
 INSERT INTO `department` (`department_id`, `name`) VALUES
 ('CNTT', 'Công Nghệ Thông Tin'),
 ('LLCT', 'Lý luận chính trị'),
+('NNA', 'Ngôn ngữ Anh'),
 ('SPT', 'Sư Phạm Toán');
 
 -- --------------------------------------------------------
@@ -80,12 +81,16 @@ CREATE TABLE `score` (
 --
 
 INSERT INTO `score` (`score_id`, `value`, `student_id`, `subject_id`, `date`) VALUES
-(1, 9, '100000', 'LTPHP', '2024-03-20 17:14:57'),
-(2, 5, '100004', 'LTPHP', '2024-03-20 22:12:14'),
-(3, 7, '100003', 'LTPHP', '2024-03-20 22:12:14'),
+(1, 9, '100000', 'LTPHP', '2024-03-23 15:20:46'),
+(2, 2, '100004', 'LTPHP', '2024-03-23 15:20:46'),
+(3, 5, '100003', 'LTPHP', '2024-03-23 15:20:46'),
 (4, 3, '100003', 'LTHDT', '2024-03-20 22:12:50'),
 (5, 3, '100004', 'LTHDT', '2024-03-20 22:12:50'),
-(6, 5, '100000', 'LTHDT', '2024-03-20 22:12:50');
+(6, 5, '100000', 'LTHDT', '2024-03-20 22:12:50'),
+(7, 6, '100005', 'KTCT', '2024-03-21 16:48:05'),
+(8, 9, '100000', 'LSD', '2024-03-23 16:26:53'),
+(9, 8, '100003', 'LSD', '2024-03-23 16:26:53'),
+(10, 9, '100005', 'TACS1', '2024-03-23 16:29:01');
 
 -- --------------------------------------------------------
 
@@ -109,7 +114,8 @@ CREATE TABLE `student` (
 INSERT INTO `student` (`student_id`, `name`, `gender`, `date_of_birth`, `address`, `class_id`) VALUES
 (100000, 'Hung Ngu', '0', '2003-02-27', 'Hoa Dong - Hai Phong', 'CNTT4'),
 (100003, 'Hong Dang', '0', '2024-03-19', 'Hoa Dong - Hai Phong', 'CNTT4'),
-(100004, 'Hoang Nam', '0', '2024-03-19', 'Xuan Doai', 'SPT1');
+(100004, 'Hoang Nam', '0', '2024-03-19', 'Xuan Doai', 'SPT1'),
+(100005, 'Dũng Bùi', '0', '2024-03-14', 'Tiên Lãng-Hải Phòng', 'CNTT4');
 
 -- --------------------------------------------------------
 
@@ -130,9 +136,11 @@ CREATE TABLE `subject` (
 --
 
 INSERT INTO `subject` (`subject_id`, `name`, `department_id`, `status`, `registered_students`) VALUES
+('KTCT', 'Kinh tế chính trị Mác-Lênin', 'LLCT', 0, 'a:1:{i:0;i:100005;}'),
 ('LSD', 'Lịch sử Đảng', 'LLCT', 1, 'a:2:{i:0;i:100000;i:1;i:100003;}'),
 ('LTHDT', 'Lập trình hướng đội tượng', 'CNTT', 1, 'a:3:{i:0;i:100003;i:1;s:6:\"100004\";i:2;i:100000;}'),
-('LTPHP', 'Lập trình PHP', 'CNTT', 1, 'a:3:{i:0;i:100000;i:1;i:100004;i:2;i:100003;}');
+('LTPHP', 'Lập trình PHP', 'CNTT', 1, 'a:3:{i:0;i:100000;i:1;i:100004;i:2;i:100003;}'),
+('TACS1', 'Tiếng Anh cơ sở 1', 'NNA', 0, 'a:1:{i:0;i:100005;}');
 
 -- --------------------------------------------------------
 
@@ -144,6 +152,7 @@ CREATE TABLE `user` (
   `user_id` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
+  `name` varchar(50) NOT NULL,
   `role` varchar(50) NOT NULL DEFAULT 'student',
   `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -152,8 +161,9 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`user_id`, `username`, `password`, `role`, `created_at`) VALUES
-(1, 'admin', '123456', 'admin', '2024-03-20 22:20:20');
+INSERT INTO `user` (`user_id`, `username`, `password`, `name`, `role`, `created_at`) VALUES
+(1, 'admin', '123456', 'Hung Ngu', 'admin', '2024-03-20 22:20:20'),
+(2, 'hungngu', '123', 'hhh', 'user', '2024-03-21 14:58:44');
 
 --
 -- Indexes for dumped tables
@@ -203,19 +213,19 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `score`
 --
 ALTER TABLE `score`
-  MODIFY `score_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `score_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `student`
 --
 ALTER TABLE `student`
-  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100005;
+  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100006;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
