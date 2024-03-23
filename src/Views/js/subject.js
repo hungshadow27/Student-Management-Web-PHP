@@ -572,14 +572,14 @@ const addNewRow = (subjectData) => {
             <td class="whitespace-nowrap px-6 py-4">
                 <button onclick="btnShowEditForm(event, '${
                   subjectData.subject_id
-                }')" class="p-3 bg-yellow-500">Sửa</button>
+                }')" class="p-3 bg-slate-500">Sửa</button>
                 <button onclick="handleDelete('${
                   subjectData.subject_id
                 }')" class="p-3 bg-red-500">Xóa</button>
-                <button class="p-3 bg-green-500" onclick="showListStudentForm('${
+                <button class="p-3 bg-slate-500" onclick="showListStudentForm('${
                   subjectData.subject_id
                 }')">Danh sách SV</button>
-                <button class="p-3 bg-orange-500" onclick="showScoreTable('${
+                <button class="p-3 bg-slate-500" onclick="showScoreTable('${
                   subjectData.subject_id
                 }')">Nhập điểm</button>
             </td>

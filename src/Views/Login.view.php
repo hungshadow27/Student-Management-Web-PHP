@@ -36,7 +36,7 @@
                 </div>
                 <div class="input-group input-group-lg mb-3">
                     <span class="input-group-text bg-danger text-white" id="inputGroup-sizing-lg">Password</span>
-                    <input type="text" name="password" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" required />
+                    <input type="password" name="password" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" required />
                 </div>
                 <button type="submit" class="btn btn-danger mb-3 btn-lg">
                     Đăng nhập

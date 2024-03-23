@@ -1,6 +1,6 @@
 <?php
-require('./src/Models/DepartmentModel.php');
-class DepartmentController
+require('./src/Models/UserModel.php');
+class UsersController
 {
     use Controller;
     public function index($a = '', $b = '', $c = '')
@@ -12,23 +12,24 @@ class DepartmentController
             $this->view('403.view');
             exit;
         }
-        $departmentModel = new DepartmentModel();
-        $departments = $departmentModel->getAllDepartments();
-        $data['departments'] = $departments;
-        $this->view('Department.view', $data);
+        $userModel = new UserModel();
+        $users = $userModel->getAllUsers();
+        $data['users'] = $users;
+        $this->view('Users.view', $data);
     }
-    public function getAllDepartment()
+    public function getAllUser()
     {
         //Authentication
-        if (!isset($_SESSION['USER'])) {
+        if (!isset($_SESSION['USER']) || (isset($_SESSION['USER']) && unserialize($_SESSION['USER'])->role !== 'admin')) {
             echo json_encode(['error' => '403: You cannot access this data']);
             exit;
         }
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            $departmentModel = new DepartmentModel();
-            $departments = $departmentModel->getAllDepartments();
+            $userModel = new UserModel();
+            $users = $userModel->getAllUsers();
+
             header('Content-Type: application/json');
-            echo json_encode($departments);
+            echo json_encode($users);
         } else {
             echo json_encode(['error' => 'Student ID is not provided']);
         }
@@ -36,17 +37,17 @@ class DepartmentController
     public function getById()
     {
         //Authentication
-        if (!isset($_SESSION['USER'])) {
+        if (!isset($_SESSION['USER']) || (isset($_SESSION['USER']) && unserialize($_SESSION['USER'])->role !== 'admin')) {
             echo json_encode(['error' => '403: You cannot access this data']);
             exit;
         }
         if (isset($_GET['id'])) {
-            $department_id = $_GET['id'];
-            $departmentModel = new DepartmentModel();
-            $department = $departmentModel->getDepartmentById($department_id);
+            $user_id = $_GET['id'];
+            $userModel = new UserModel();
+            $user = $userModel->getUserById($user_id);
 
             header('Content-Type: application/json');
-            echo json_encode($department);
+            echo json_encode($user);
         } else {
             echo json_encode(['error' => 'Student ID is not provided']);
         }
@@ -63,11 +64,14 @@ class DepartmentController
             if (!empty($json_data)) {
                 $data = json_decode($json_data, true); // true parameter converts objects to associative arrays
                 if ($data !== null) {
-                    $department_id = $data['department_id'];
+                    $user_id = $data['user_id'];
+                    $username = $data['username'];
+                    $password = $data['password'];
                     $name = $data['name'];
+                    $role = $data['role'];
 
-                    $departmentModel = new DepartmentModel();
-                    $departmentModel->updateDepartmentById($department_id, $name);
+                    $userModel = new UserModel();
+                    $userModel->updateUserById($user_id, $username, $password, $name, $role);
 
                     header('Content-Type: application/json');
                     echo json_encode(['success' => true, 'message' => 'Data received successfully']);
@@ -90,9 +94,9 @@ class DepartmentController
             exit;
         }
         if (isset($_GET['id'])) {
-            $department_id = $_GET['id'];
-            $departmentModel = new DepartmentModel();
-            $departmentModel->deleteDepartmentById($department_id);
+            $user_id = $_GET['id'];
+            $userModel = new UserModel();
+            $userModel->deleteUserById($user_id);
 
             header('Content-Type: application/json');
             echo json_encode(['success' => 'Deleted']);
@@ -115,11 +119,14 @@ class DepartmentController
 
                 // Check if JSON decoding was successful
                 if ($data !== null) {
-                    $department_id = $data['department_id'];
+                    $user_id = $data['user_id'];
+                    $username = $data['username'];
+                    $password = $data['password'];
                     $name = $data['name'];
+                    $role = $data['role'];
 
-                    $departmentModel = new DepartmentModel();
-                    $departmentModel->addDepartment($department_id, $name);
+                    $userModel = new UserModel();
+                    $userModel->addUser($user_id, $username, $password, $name, $role);
 
                     header('Content-Type: application/json');
                     echo json_encode(['success' => true, 'message' => 'Data received successfully']);

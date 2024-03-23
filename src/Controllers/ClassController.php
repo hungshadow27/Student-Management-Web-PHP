@@ -8,6 +8,9 @@ class ClassController
         if (!isset($_SESSION['USER'])) {
             redirect('login');
             exit;
+        } else if (unserialize($_SESSION['USER'])->role !== 'admin') {
+            $this->view('403.view');
+            exit;
         }
         $classModel = new ClassModel();
         $classes = $classModel->getAllClasses();
@@ -16,6 +19,11 @@ class ClassController
     }
     public function getAllClass()
     {
+        //Authentication
+        if (!isset($_SESSION['USER'])) {
+            echo json_encode(['error' => '403: You cannot access this data']);
+            exit;
+        }
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $classModel = new ClassModel();
             $classes = $classModel->getAllClasses();
@@ -28,6 +36,11 @@ class ClassController
     }
     public function getById()
     {
+        //Authentication
+        if (!isset($_SESSION['USER'])) {
+            echo json_encode(['error' => '403: You cannot access this data']);
+            exit;
+        }
         if (isset($_GET['id'])) {
             $class_id = $_GET['id'];
             $classModel = new ClassModel();
@@ -41,6 +54,11 @@ class ClassController
     }
     public function update()
     {
+        //Authentication
+        if (!isset($_SESSION['USER']) || (isset($_SESSION['USER']) && unserialize($_SESSION['USER'])->role !== 'admin')) {
+            echo json_encode(['error' => '403: You cannot access this data']);
+            exit;
+        }
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $json_data = file_get_contents('php://input');
             if (!empty($json_data)) {
@@ -68,6 +86,11 @@ class ClassController
     }
     public function delete()
     {
+        //Authentication
+        if (!isset($_SESSION['USER']) || (isset($_SESSION['USER']) && unserialize($_SESSION['USER'])->role !== 'admin')) {
+            echo json_encode(['error' => '403: You cannot access this data']);
+            exit;
+        }
         if (isset($_GET['id'])) {
             $class_id = $_GET['id'];
             $classModel = new ClassModel();
@@ -81,6 +104,11 @@ class ClassController
     }
     public function add()
     {
+        //Authentication
+        if (!isset($_SESSION['USER']) || (isset($_SESSION['USER']) && unserialize($_SESSION['USER'])->role !== 'admin')) {
+            echo json_encode(['error' => '403: You cannot access this data']);
+            exit;
+        }
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $json_data = file_get_contents('php://input');
 

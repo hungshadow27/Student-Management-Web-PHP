@@ -1,11 +1,18 @@
 <?php
-
+require_once "./src/Models/StudentModel.php";
+require_once "./src/Models/SubjectModel.php";
 class ScoreModel
 {
     use Database;
     public function getScoresBySubjectId($subject_id)
     {
         $scores = $this->table("score")->getListItemsWithCondition('subject_id', $subject_id);
+        $studentModel = new StudentModel();
+        $subjectModel = new SubjectModel();
+        foreach ($scores as $score) {
+            $score->student_info =  $studentModel->getStudentById($score->student_id);
+            $score->subject_info = $subjectModel->getSubjectById($score->subject_id);
+        }
         return $scores;
     }
     public function updateScoreById($score_id, $value)
@@ -13,6 +20,7 @@ class ScoreModel
         $rs = $this->table("score")
             ->update('score_id', $score_id, [
                 'value' => $value,
+                'date' => getCurrentDateTime()
             ]);
         return $rs;
     }

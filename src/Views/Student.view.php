@@ -33,6 +33,9 @@
     <div class="fixed bottom-0 left-1/2 transform -translate-x-1/2">
         <button class="p-3 bg-blue-500 text-lg" onclick="createAddForm()">Thêm</button>
     </div>
+    <div class="fixed bottom-0 right-0">
+        <a class="p-3 bg-green-500 text-lg" href="<?= ROOT ?>/student/exportAndDownloadExcel">Xuất file Excel</a>
+    </div>
     <div id="formContainer"></div>
 </div>
 <script>

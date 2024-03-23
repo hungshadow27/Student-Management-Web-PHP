@@ -8,6 +8,9 @@ class SubjectController
         if (!isset($_SESSION['USER'])) {
             redirect('login');
             exit;
+        } else if (unserialize($_SESSION['USER'])->role !== 'admin') {
+            $this->view('403.view');
+            exit;
         }
         $subjectModel = new SubjectModel();
         $subjects = $subjectModel->getAllSubjects();
@@ -16,6 +19,11 @@ class SubjectController
     }
     public function getAllSubject()
     {
+        //Authentication
+        if (!isset($_SESSION['USER'])) {
+            echo json_encode(['error' => '403: You cannot access this data']);
+            exit;
+        }
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $subjectModel = new SubjectModel();
             $subjects = $subjectModel->getAllSubjects();
@@ -28,6 +36,11 @@ class SubjectController
     }
     public function getById()
     {
+        //Authentication
+        if (!isset($_SESSION['USER'])) {
+            echo json_encode(['error' => '403: You cannot access this data']);
+            exit;
+        }
         if (isset($_GET['id'])) {
             $subject_id = $_GET['id'];
             $subjectModel = new SubjectModel();
@@ -41,6 +54,11 @@ class SubjectController
     }
     public function update()
     {
+        //Authentication
+        if (!isset($_SESSION['USER']) || (isset($_SESSION['USER']) && unserialize($_SESSION['USER'])->role !== 'admin')) {
+            echo json_encode(['error' => '403: You cannot access this data']);
+            exit;
+        }
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $json_data = file_get_contents('php://input');
             if (!empty($json_data)) {
@@ -68,6 +86,11 @@ class SubjectController
     }
     public function updateRegisteredStudents()
     {
+        //Authentication
+        if (!isset($_SESSION['USER']) || (isset($_SESSION['USER']) && unserialize($_SESSION['USER'])->role !== 'admin')) {
+            echo json_encode(['error' => '403: You cannot access this data']);
+            exit;
+        }
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $json_data = file_get_contents('php://input');
             if (!empty($json_data)) {
@@ -94,6 +117,11 @@ class SubjectController
     }
     public function setStatus()
     {
+        //Authentication
+        if (!isset($_SESSION['USER']) || (isset($_SESSION['USER']) && unserialize($_SESSION['USER'])->role !== 'admin')) {
+            echo json_encode(['error' => '403: You cannot access this data']);
+            exit;
+        }
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $json_data = file_get_contents('php://input');
             if (!empty($json_data)) {
@@ -120,6 +148,11 @@ class SubjectController
     }
     public function delete()
     {
+        //Authentication
+        if (!isset($_SESSION['USER']) || (isset($_SESSION['USER']) && unserialize($_SESSION['USER'])->role !== 'admin')) {
+            echo json_encode(['error' => '403: You cannot access this data']);
+            exit;
+        }
         if (isset($_GET['id'])) {
             $subject_id = $_GET['id'];
             $subjectModel = new SubjectModel();
@@ -133,6 +166,11 @@ class SubjectController
     }
     public function add()
     {
+        //Authentication
+        if (!isset($_SESSION['USER']) || (isset($_SESSION['USER']) && unserialize($_SESSION['USER'])->role !== 'admin')) {
+            echo json_encode(['error' => '403: You cannot access this data']);
+            exit;
+        }
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $json_data = file_get_contents('php://input');
 

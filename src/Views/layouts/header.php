@@ -6,8 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -70,7 +74,7 @@
 
 <body>
     <div id="alertContainer"></div>
-    <div id="loadingContainer" class="z-20 space-y-2 hidden p-3 bg-slate-700 text-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+    <div id="loadingContainer" class="z-50 space-y-2 hidden p-3 bg-slate-700 text-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
         <div class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-success motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status">
             <span class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">Loading...</span>
         </div>
@@ -84,15 +88,16 @@
                 <a href="<?= ROOT ?>/class" class="w-full hover:bg-slate-600 py-3 ps-5">Lớp</a>
                 <a href="<?= ROOT ?>/department" class="w-full hover:bg-slate-600 py-3 ps-5">Khoa</a>
                 <a href="<?= ROOT ?>/subject" class="w-full hover:bg-slate-600 py-3 ps-5">Học phần</a>
-                <a href="<?= ROOT ?>/member" class="w-full hover:bg-slate-600 py-3 ps-5">Thành viên</a>
+                <a href="<?= ROOT ?>/score" class="w-full hover:bg-slate-600 py-3 ps-5">Nhập điểm</a>
+                <a href="<?= ROOT ?>/users" class="w-full hover:bg-slate-600 py-3 ps-5">Thành viên</a>
             </ul>
         </nav>
         <main class="flex-1">
             <header class="w-full bg-green-700 py-3 px-5">
                 <div class="text-end text-lg">
-                    <div class="relative inline-block text-left">
+                    <div class="relative inline-block text-left z-30">
                         <div class="group">
-                            <button type="button" class="inline-flex justify-center items-center w-full px-4 py-2 text-sm font-medium text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:bg-gray-700">
+                            <button type="button" class="inline-flex justify-center items-center w-full px-4 text-sm font-medium text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:bg-gray-700">
                                 <?= unserialize($_SESSION['USER'])->username ?>
                                 <!-- Dropdown arrow -->
                                 <svg class="w-4 h-4 ml-2 -mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">

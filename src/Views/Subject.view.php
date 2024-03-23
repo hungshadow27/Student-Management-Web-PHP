@@ -38,10 +38,10 @@
                             <span class="w-7 h-7 right-7 absolute rounded-full transform transition-transform bg-gray-200" />
                         </label>
                     </td>
-                    <td class="whitespace-nowrap px-6 py-4"><button onclick="btnShowEditForm(event,'<?= $sub->subject_id ?>')" class="p-3 bg-yellow-500">Sửa</button>
+                    <td class="whitespace-nowrap px-6 py-4"><button onclick="btnShowEditForm(event,'<?= $sub->subject_id ?>')" class="p-3 bg-slate-500">Sửa</button>
                         <button class="p-3 bg-red-500" onclick="handleDelete('<?= $sub->subject_id ?>')">Xóa</button>
-                        <button class="p-3 bg-green-500" onclick="showListStudentForm('<?= $sub->subject_id ?>')">Danh sách SV</button>
-                        <button class="p-3 bg-orange-500" onclick="showScoreTable('<?= $sub->subject_id ?>')">Nhập điểm</button>
+                        <button class="p-3 bg-slate-500" onclick="showListStudentForm('<?= $sub->subject_id ?>')">Danh sách SV</button>
+                        <button class="p-3 bg-slate-500" onclick="showScoreTable('<?= $sub->subject_id ?>')">Nhập điểm</button>
                     </td>
                 </tr>
             <?php endforeach; ?>

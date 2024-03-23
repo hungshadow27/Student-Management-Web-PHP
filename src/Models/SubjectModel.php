@@ -61,7 +61,8 @@ class SubjectModel
             ->insert([
                 'subject_id' => $subject_id,
                 'name' => $name,
-                'department_id' => $department_id
+                'department_id' => $department_id,
+                'registered_students'=>'a:0:{}'
             ]);
         return $rs;
     }
